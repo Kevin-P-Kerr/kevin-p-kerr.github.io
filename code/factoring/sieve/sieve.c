@@ -2,12 +2,9 @@
 #include <string.h>
 #include "../util/geo.c"
 #include "../bits/bitmanip.c"
+#include "sieve.h"
 #include <stdio.h>
 
-typedef struct prime_record {
-    ulong value;
-    struct prime_record *next;
-} prime_record;
 
 void p(prime_record *pr) {
     for(;pr != 0;pr=pr->next) {
