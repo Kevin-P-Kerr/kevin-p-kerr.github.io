@@ -5,12 +5,6 @@
 #include "sieve.h"
 #include <stdio.h>
 
-void p(prime_record *pr) {
-    for(;pr != 0;pr=pr->next) {
-        fprintf(stdout,"%lu\n",pr->value);
-    }
-}
-
 prime_record *sieve(ulong n) {
     ulong len = 1+(n/64);
     ulong *a = malloc(sizeof(ulong)*len);

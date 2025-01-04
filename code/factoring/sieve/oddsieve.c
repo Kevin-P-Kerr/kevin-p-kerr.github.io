@@ -6,38 +6,43 @@
 #include <stdio.h>
 
 prime_record *oddSieve(ulong n) {
-    ulong len = ((1+(n/65))/2)+1;
+    // calculate the len of the bit array
+    ulong len = (n/32)+1;
+    // initialize the bit array
     ulong *a = malloc(sizeof(ulong)*len);
-    ulong limit = cloestSqrRt(n);
-    // each number in a is 2n+1, starting with n=1
-    ulong p =0;
-    // mark
-    while (p <= limit) {
-        ulong i;
-        for(i=0;i<len;i++) {
-            if(!isSet(i,a)) {
-                p = (2*(i+1))+1
-                i+=p;
+    memset(a,0,sizeof(ulong)*len);
+    // a[0]=3,a[1]=5
+    // i.e. a[n] = 2(n+1)+1 = 2n+3
+    // mark the array
+    ulong j = 0; // track the latest prime
+    ulong limit = closestSqrRt(n);
+    ulong p = 0; // the current prime with which we mark
+    while(p<=limit) {
+        // find the next prime
+        for(;j<len;j++) {
+            if(!(isSet(j,a))) {
+                p = (2*j)+3;
                 break;
             }
         }
-        for(;i<len;i+=p) {
+        // mark
+        for(ulong i=j+p;i<n;i+=p) {
             mark(i,a);
         }
     }
-    //gather primes
+    // gather
     prime_record *anchor = malloc(sizeof(prime_record));
-    prime_record *p = anchor; 
-    p->next = 0;
+    prime_record *pr = anchor;
+    pr->next = 0;
     for(ulong i=0;i<len;i++) {
-        if (!isSet(i,a)) {
-            ulong val = (2*(i+1))+1;
-            p->value = p;
+        if(!isSet(i,a)) {
+            pr->value = (2*i)+3;
             prime_record *nxt = malloc(sizeof(prime_record));
-            nxt->next= 0;
-            p->next = nxt;
-            p = nxt;
+            nxt->next = 0;
+            pr->next = nxt;
+            pr=nxt;
         }
     }
+    free(a);
     return anchor;
 }
