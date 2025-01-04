@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 prime_record *oddSieve(ulong n) {
-    ulong t = (n/2)+1; // the number of entries in the array
+    ulong t = (n/2)-1; // the number of entries in the array
     // calculate the len of the bit array in ulongs
     ulong len = (t/64)+1;
     // initialize the bit array
@@ -28,7 +28,6 @@ prime_record *oddSieve(ulong n) {
         }
         // mark with the prime
         for(ulong i=j+p;i<t;i+=p) {
-            fprintf(stdout,"mark!\n");
             mark(i,a);
         }
         // increment j to begin finding the next prime
@@ -38,16 +37,19 @@ prime_record *oddSieve(ulong n) {
     prime_record *anchor = malloc(sizeof(prime_record));
     prime_record *pr = anchor;
     pr->next = 0;
+    prime_record *secondtolast;
     for(ulong i=0;i<t;i++) {
         if(!isSet(i,a)) {
-            fprintf(stdout,"hit!\n");
             pr->value = (2*i)+3;
             prime_record *nxt = malloc(sizeof(prime_record));
             nxt->next = 0;
             pr->next = nxt;
+            secondtolast = pr;
             pr=nxt;
         }
     }
+    secondtolast->next =0;
+    free(pr);
     free(a);
     return anchor;
 }
