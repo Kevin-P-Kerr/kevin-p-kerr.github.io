@@ -1,5 +1,4 @@
-#include "../factor.h"
-#include "sieve.h"
+#include "sieve.c"
 
 ulong sfactor(ulong n, prime_record *pr) {
     for(;pr != 0;pr=pr->next) {

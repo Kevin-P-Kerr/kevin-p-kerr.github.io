@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<time.h>
-#include "trial_division/trialdivision.c"
 #include "primality/mr.c"
+#include "sieve/sfactor.c"
 
 ulong total = 0;
 int slowest = 0;
@@ -32,6 +32,7 @@ static void signal_handler(int sig){
 }
 
 void panic(const char *fmt, ...){
+    fprintf(stdout,fmt);
     fprintf(stdout,"total:%lu\nslowest %lu, %lu [%dms]\n",total,slowest_c,slowest_f,slowest);
     exit(-1);
 }
@@ -41,10 +42,14 @@ void cleanup(void){
     /* Do any cleaning up chores here */
 }
 
-void factor(ulong n) {
+void factor(ulong n,prime_record *pr) {
     clock_t start,diff;
     start = clock();
-    ulong y = factorTD(n);
+    ulong y = sfactor(n,pr);
+    if (y == 0) {
+        fprintf(stdout,"%lu, %lu [%dms]\n",n,y,-1);
+        panic("^^^^bad bad bad\n");
+    }
     diff = clock()-start;
     int ms = diff*1000 / CLOCKS_PER_SEC;
     fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
@@ -58,13 +63,15 @@ void factor(ulong n) {
 
 int main(int argc, char **argv) {
     init_signals();
-    ulong i = ULONG_MAX-2000000;
+    ulong i = ULONG_MAX-4000000;
     ulong l = ULONG_MAX-i;
+    // 4288415423
+    prime_record *r  = sieve(4313111743*2);
     for(;l>0;i+=2,l-=2) {
         if (is_prime(i)) {
             continue;
         }
-        factor(i);
+        factor(i,r);
     }
     panic("hhh");
 }
