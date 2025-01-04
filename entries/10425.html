@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Blog</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Rhine Papyrus Problem 40</h1>
+        100 loaves of bread are to be divided among five men. The men's five shares of bread are to be in arithmetic progression, so that consecutive shares always differ by a fixed difference, or 
+Δ  Furthermore, the sum of the three largest shares is to be equal to seven times the sum of the two smallest shares. Find 
+Δ  and write it as an Egyptian fraction.
+        <h2> The Solution </h2>
+        <p> Say that x is the amount of bread given to the man with the least bread, and d is the "fixed difference" between them. Then
+        <br>(1) <p class="math-block">
+        x + (d + x) + (2d + x) +...+(4d + x) = 100
+        <p> Now we can calculate x, based on our definition of d in terms of x </p>
+        <p> Then, " the sum of the three largest shares is to be equal to seven times the sum of the two smallest shares" </p>
+        <p class="math-block">
+        (4d+x)+(3d+x)+(2d+x) = 7(x+d+x),
+        9d+3x = 14x+7d
+        9d = 11x+7d
+        2d = 11x
+        d = 11x/2
+        </p><p> Now we can use our definition of d in terms of x to solve for x.
+        <p class="math-block">
+        5x+10*(11x/2) = 100
+        5x+55x = 100
+        60x = 100
+        x = 100/60
+        x = 5/3
+        d = 55/6
+        </p>
+        <table> 
+            <tr>
+                <th> person </th><th> bread (rational) </th> <th> bread (decimal) </th> </tr>
+            <tr> <td> 1 </td> <td> 5/3 </td> <td> 1.66 </td></tr>
+            <tr> <td> 2 </td> <td> 65/6 </td> <td> 10.83 </td></tr>
+            <tr> <td> 3 </td> <td> 20 </td> <td> 20 </td></tr>
+            <tr> <td> 4 </td> <td> 175/6</td><td>29.16</td></tr>
+            <tr> <td> 5 </td> <td> 230/6</td><td>38.33</td></tr></table>
+    </div>
+</body>
+</html>
+
