@@ -23,6 +23,7 @@ prime_record *sieve(ulong n) {
                 break;
             }
         }
+        fprintf(stdout,"%lu/%lu\n",p,limit);
     }
     // get primes
     prime_record *record = malloc(sizeof(prime_record));
