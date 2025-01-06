@@ -14,33 +14,33 @@
         <h2> Multiply Two Two-Digit Number </h2>
         <p class="math-block"> 
             multiply a,b a>b, both being less than 100
-            `
+            
             1) let c = 100-a
             2) let d = 100-b
             3) let e = 100*(a-d)
             4) let f = c*d
-            5) e+f = ab `
+            5) e+f = ab 
             </p>
         <p> Does this work? It seems that it does, and we can quickly prove that it does </p>
         <p class="math-block">
             `
-            6) e = 100a-100d
-            7) e = 100a-100(100-b) = 100a-10000+100b
-            8) f = (100-a)(100-b) = 10000-100a-100b+ab
-            9) e+f = 100a-10000+100b+10000-100a-100b+ab =ab `
+            6) e = `100a-100d`
+            7) e = `100a-100(100-b) = 100a-10000+100b`
+            8) f = `(100-a)(100-b) = 10000-100a-100b+ab`
+            9) e+f = `100a-10000+100b+10000-100a-100b+ab =ab `
             as required </p>
         <p> and we can generalize this to any base j and any exponent k </p>
         <p class="math-block">
         `
-        for a given base, j, let k be the smallest number such that j^k > a, then
-        1) let c = j^k-a
-        2) let d = j^k-b
-        3) let e = j^k(a-d)
-        4) let f = c*d
-        hypothesis: e+f = ab
-        5) f = (j^k-a)(j^k-b) = j^2k-aj^k-bj^k+ab
-        6) e = j^ka-j^kd = j^ka -j^k(j^k-b) = j^ka-j^2k+j^kb
-        7) e+f = aj^k-j^2k+bj^k+j^2k-aj^k-bj^k+ab = ab`, as required. <p>
+        for a given base, j, let k be the smallest number such that `j^k > a`, then
+        1) let `c = j^k-a`
+        2) let `d = j^k-b`
+        3) let `e = j^k(a-d)`
+        4) let `f = c*d`
+        hypothesis: `e+f = ab`
+        5) `f = (j^k-a)(j^k-b) = j^2k-aj^k-bj^k+ab`
+        6) `e = j^ka-j^kd = j^ka -j^k(j^k-b) = j^ka-j^2k+j^kb`
+        7) `e+f = aj^k-j^2k+bj^k+j^2k-aj^k-bj^k+ab = ab`, as required. <p>
         <p> This is an interesting approach, but really only practical when a and b are close to 10^n. For example, multiplying 27 and 13 using this technique reduces to multiplying 73 by 87. Though in that case, the above approach could work. </p>
     </div>
 </body>
