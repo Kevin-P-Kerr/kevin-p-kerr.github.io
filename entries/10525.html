@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Multiplication</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Meme Multiplication</h1>
+        <p> Here's a <a href="https://www.tiktok.com/@mr.pov272/video/7454982438012538158"> nifty video </a> showing two kids multiplying. One using the "standard" approach that I was taught in grade school, the other using some type of trick. The algorithm seems to be
+        <h2> Multiply Two Two-Digit Number </h2>
+        <p class="math-block"> 
+            multiply a,b a>b, both being less than 100
+            
+            1) let c = 100-a
+            2) let d = 100-b
+            3) let e = 100*(a-d)
+            4) let f = c*d
+            5) e+f = ab
+            </p>
+        <p> Does this work? It seems that it does, and we can quickly prove that it does </p>
+        <p class="math-block">
+            6) e = 100a-100d
+            7) e = 100a-100(100-b) = 100a-10000+100b
+            8) f = (100-a)(100-b) = 10000-100a-100b+ab
+            9) e+f = 100a-10000+100b+10000-100a-100b+ab =ab
+            as required </p>
+        <p> and we can generalize this to any base j and any exponent k </p>
+        <p class="math-block">
+        for a given base, j, let k be the smallest number such that j^k > a, then
+        1) 
+    </div>
+</body>
+</html>
+
