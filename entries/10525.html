@@ -30,7 +30,14 @@
         <p> and we can generalize this to any base j and any exponent k </p>
         <p class="math-block">
         for a given base, j, let k be the smallest number such that j^k > a, then
-        1) 
+        1) let c = j^k-a
+        2) let d = j^k-b
+        3) let e = j^k(a-d)
+        4) let f = c*d
+        hypothesis: e+f = ab
+        5) f = (j^k-a)(j^k-b) = j^2k-aj^k-bj^k+ab
+        6) e = j^ka-j^kd = j^ka -j^k(j^k-b) = j^ka-j^2k+j^kb
+        7) e+f = aj^k-j^2k+bj^k+j^2k-aj^k-bj^k+ab = ab, as required. <p>
     </div>
 </body>
 </html>
