@@ -9,6 +9,7 @@
 #include "sieve/sfactor.c"
 #include "util/abs.c"
 #include "util/geo.c"
+#include "bits/bitmanip.c"
 #include "squares/fsquare.c"
 
 ulong total = 0;

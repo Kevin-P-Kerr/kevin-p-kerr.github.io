@@ -5,7 +5,7 @@ typedef struct prime_record {
     struct prime_record *next;
 } prime_record;
 
-ulong closestSqr(ulong n);
+ulong closestSqrRt(ulong n);
 
 ulong isSqr(ulong n);
 

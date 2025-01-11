@@ -1,4 +1,4 @@
-ulong closestSqr(ulong n) {
+ulong closestSqrRt(ulong n) {
     ulong a = 2;
     ulong b = n;
     ulong z = n/2;
@@ -21,7 +21,7 @@ ulong closestSqr(ulong n) {
 }
 
 ulong isSqr(ulong n) {
-    ulong z = closestSqr(n);
+    ulong z = closestSqrRt(n);
     if (z*z==n) {return 1;}
     return 0;
 }

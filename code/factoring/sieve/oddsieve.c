@@ -1,3 +1,5 @@
+#include<string.h>
+
 prime_record *oddSieve(ulong n) {
     ulong t = (n/2)-1; // the number of entries in the array
     // calculate the len of the bit array in ulongs
