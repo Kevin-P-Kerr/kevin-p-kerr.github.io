@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odd Composites Difference of Two Squares</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Fermat's Factorization Method</h1>
+        <p> Fermat tells us that, since every odd composite is the difference of two squares, we can factor any such number the following way. For example, `55=(8+3)(8-3)` </p> <br> <p class="math-block">
+        let y be the odd composite we wish to factor (assuming y is not a square). 
+        then find a square x such that `x+y=z`, where z is also square
+        then let j,k be the roots of those squares respectively
+        then `(k+j)(k-j)= k^2 - j^2 = z-x = y`,
+        therefore `(k+j), (k-j)` are factors of y. </p><br>
+        <p> But how do we know that every off composite is the difference of two squares? Consider the following </p><br>
+        <p class="math-block">
+            If y is a non-square odd composite, then `j*k=y`, and j and k are odd. Let `j>k`.
+            If j and k are odd, then `j+k` and `j-k` are even, and the midpoint between j and k, `(j+k)/2` is a whole number.
+            Furthermore, the difference between the midpoint and either factor is `(j-k)/2`, which is also a whole number.
+            Call the midpoint a, and the difference between the midpoint and the two factors b.
+            Then `j=(a+b)` and `k=(a-b)`,
+            `jk=(a+b)(a-b)=a^2-b^2=y`, as required.
+        <p> As a bonus, here is a graph of the odd composites (x axis), mod the lesser root (y axis) </p><br>
+        <iframe width=1400, height=700 src="../code/visualizations/modlesserrt.html"></iframe>
