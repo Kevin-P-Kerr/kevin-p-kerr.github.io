@@ -1,9 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-#include "../util/geo.c"
-#include "../bits/bitmanip.c"
-#include "sieve.h"
-#include <stdio.h>
 
 prime_record *sieve(ulong n) {
     ulong len = 1+(n/64);

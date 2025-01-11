@@ -1,5 +1,3 @@
-#include "../factor.h"
-
 ulong closestSqr(ulong n) {
     ulong a = 2;
     ulong b = n;

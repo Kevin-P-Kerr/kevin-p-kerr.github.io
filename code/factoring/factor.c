@@ -3,8 +3,11 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<time.h>
+#include "factor.h"
+#include "sieve/oddsieve.c"
 #include "primality/mr.c"
-//#include "sieve/sfactor.c"
+#include "sieve/sfactor.c"
+#include "util/abs.c"
 #include "util/geo.c"
 #include "squares/fsquare.c"
 
@@ -44,21 +47,17 @@ void cleanup(void){
     /* Do any cleaning up chores here */
 }
 
-void factor(ulong n) {
+void factor(ulong n, prime_record *pr) {
     clock_t start,diff;
     start = clock();
-    ulong y = semifactor(n);
+    ulong y = sfactor(n,pr);
     if (y == 0) {
         fprintf(stdout,"%lu, %lu [%dms]\n",n,y,-1);
         panic("^^^^bad bad bad\n");
     }
     diff = clock()-start;
     int ms = diff*1000 / CLOCKS_PER_SEC;
-    //fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
-    ulong z = n%y;
-    if (z>150) {
-    fprintf(stdout,"%lu, %lu\n",n,z);
-    }
+    fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
     if (ms > slowest) {
         slowest = ms;
         slowest_c = n;
@@ -69,11 +68,12 @@ void factor(ulong n) {
 
 int main(int argc, char** argv) {
     init_signals();
+    prime_record *r = oddSieve(60000000);
     for(ulong i=3;i<250000;i+=2) {
         if (is_prime(i) || isSqr(i)) {
             continue;
         }
-        factor(i);
+        factor(i,r);
     }
 }
 

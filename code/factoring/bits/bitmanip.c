@@ -1,5 +1,3 @@
-#include "../factor.h"
-
 void mark(ulong n, ulong *a) {
     ulong index = n/64; 
     ulong b = n-(64*index);
