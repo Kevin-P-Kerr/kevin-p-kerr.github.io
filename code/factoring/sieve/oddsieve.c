@@ -26,7 +26,7 @@ prime_record *oddSieve(ulong n) {
                 break;
             }
         }
-        fprintf(stdout,"%lu/%lu\n",p,limit);
+        //fprintf(stdout,"%lu/%lu\n",p,limit);
         // mark with the prime
         for(ulong i=j+p;i<t;i+=p) {
             mark(i,a);

@@ -1,4 +1,4 @@
-#include "sieve.c"
+#include "oddsieve.c"
 
 ulong sfactor(ulong n, prime_record *pr) {
     for(;pr != 0;pr=pr->next) {

@@ -3,7 +3,8 @@ ulong semifactor(ulong n) {
         ulong z = n+(i*i);
         ulong s = closestSqr(z);
         if (s*s == z) {
-            if(z%(s+i) !=0) {
+            if(n%(s+i) !=0) {
+                fprintf(stdout,"%lu,%lu\n",s,i);
                 return 0;
             }
             return i;

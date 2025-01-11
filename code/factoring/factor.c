@@ -4,7 +4,9 @@
 #include<limits.h>
 #include<time.h>
 #include "primality/mr.c"
-#include "sieve/sfactor.c"
+//#include "sieve/sfactor.c"
+#include "util/geo.c"
+#include "squares/fsquare.c"
 
 ulong total = 0;
 int slowest = 0;
@@ -42,17 +44,21 @@ void cleanup(void){
     /* Do any cleaning up chores here */
 }
 
-void factor(ulong n,prime_record *pr) {
+void factor(ulong n) {
     clock_t start,diff;
     start = clock();
-    ulong y = sfactor(n,pr);
+    ulong y = semifactor(n);
     if (y == 0) {
         fprintf(stdout,"%lu, %lu [%dms]\n",n,y,-1);
         panic("^^^^bad bad bad\n");
     }
     diff = clock()-start;
     int ms = diff*1000 / CLOCKS_PER_SEC;
-    fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
+    //fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
+    ulong z = n%y;
+    if (z>150) {
+    fprintf(stdout,"%lu, %lu\n",n,z);
+    }
     if (ms > slowest) {
         slowest = ms;
         slowest_c = n;
@@ -61,17 +67,33 @@ void factor(ulong n,prime_record *pr) {
     total++;
 }
 
+int main(int argc, char** argv) {
+    init_signals();
+    for(ulong i=3;i<250000;i+=2) {
+        if (is_prime(i) || isSqr(i)) {
+            continue;
+        }
+        factor(i);
+    }
+}
+
+/*
 int main(int argc, char **argv) {
     init_signals();
     ulong i = ULONG_MAX-4000000;
     ulong l = ULONG_MAX-i;
     // 4288415423
-    prime_record *r  = sieve(4313111743*2);
-    for(;l>0;i+=2,l-=2) {
+    //prime_record *r  = sieve(4313111743*2);
+    prime_record *r = oddSieve(60000000);
+    i = 3;
+    l = 100000;
+    for(;i<l;i+=2) {
         if (is_prime(i)) {
+            //fprintf(stdout,"%lu, %lu\n",i,1);
             continue;
         }
         factor(i,r);
     }
-    panic("hhh");
+   // panic("hhh");
 }
+*/
