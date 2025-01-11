@@ -1,4 +1,3 @@
-#include "../factor.h"
 
 ulong mul_mod(ulong a, ulong b, const ulong mod) {
     ulong res = 0, c; // return (a * b) % mod, avoiding overflow errors while doing modular multiplication.

@@ -20,3 +20,7 @@ prime_record *sieve(ulong n);
 void mark(ulong n, ulong *a);
 
 int isSet(ulong n, ulong *a);
+
+int is_prime(ulong n);
+
+ulong gcd(ulong a, ulong b);

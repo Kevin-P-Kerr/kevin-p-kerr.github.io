@@ -1,4 +1,3 @@
-#include <stdio.h>
 
 ulong gcd(ulong a, ulong b) {
     if (a == b) {
