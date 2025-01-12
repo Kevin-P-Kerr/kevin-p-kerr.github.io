@@ -5,6 +5,11 @@ typedef struct prime_record {
     struct prime_record *next;
 } prime_record;
 
+typedef struct rat {
+    ulong num;
+    ulong denom;
+} rat;
+
 ulong closestSqrRt(ulong n);
 
 ulong isSqr(ulong n);

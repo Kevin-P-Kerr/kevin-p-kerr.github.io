@@ -48,6 +48,15 @@ void cleanup(void){
     /* Do any cleaning up chores here */
 }
 
+void info(ulong n, ulong f) {
+    ulong ff = n/f;
+    ulong mid = (f+ff)/2;
+    ulong d = abs_diff(ff,f)/2;
+    ulong z = n%mid;
+    ulong zz = n%d;
+    fprintf(stdout,"%lu, %lu, %lu, %lu, %lu\n",n,mid,d,z,zz);
+}
+
 void factor(ulong n, prime_record *pr) {
     clock_t start,diff;
     start = clock();
@@ -58,7 +67,8 @@ void factor(ulong n, prime_record *pr) {
     }
     diff = clock()-start;
     int ms = diff*1000 / CLOCKS_PER_SEC;
-    fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
+    info(n,y);
+    //fprintf(stdout,"%lu, %lu [%dms]\n",n,y,ms);
     if (ms > slowest) {
         slowest = ms;
         slowest_c = n;
@@ -70,7 +80,7 @@ void factor(ulong n, prime_record *pr) {
 int main(int argc, char** argv) {
     init_signals();
     prime_record *r = oddSieve(60000000);
-    for(ulong i=3;i<250000;i+=2) {
+    for(ulong i=3;i<2000;i+=2) {
         if (is_prime(i) || isSqr(i)) {
             continue;
         }

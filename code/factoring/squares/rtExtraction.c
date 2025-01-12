@@ -1,16 +1,15 @@
 rat *rt(ulong n) {
-    ulong l = closestSqrRt(ULONG_MAX);
-    while (l>1) {
+    ulong l = closestSqrRt(900000000000000);
+    //ulong l = closestSqrRt(500);
+    while (l>2) {
         ulong s = l*l;
-        ulong f = s/n;
-        ulong z = 5;
-        for(;z>=0;z--) {
-            if(isSqr(f-z)) {
-                rat *r = malloc(sizeof(rat));
-                r->num = f-z;
-                r->denom = s;
-                return r;
-            }
+        // a^2 = nb^2
+        ulong t = s/n;
+        if(isSqr(t) || isSqr(t-1)) {
+            rat *r = malloc(sizeof(rat));
+            r->num = l;
+            r->denom = closestSqrRt(t);
+            return r;
         }
         l--;
     }
