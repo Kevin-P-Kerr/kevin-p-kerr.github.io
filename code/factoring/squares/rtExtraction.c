@@ -1,5 +1,5 @@
 rat *rt(ulong n) {
-    ulong l = closestSqrRt(900000000000000);
+    ulong l = closestSqrRt(ULONG_MAX/16);
     //ulong l = closestSqrRt(500);
     while (l>2) {
         ulong s = l*l;
