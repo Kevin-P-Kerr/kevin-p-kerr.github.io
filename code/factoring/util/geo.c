@@ -9,6 +9,17 @@ ulong findStart(ulong n) {
     return j;
 }
 
+int overflows(ulong b, ulong s) {
+    if (b==0) {
+        return 0;
+    }
+    ulong z = b*b;
+    if (z/b == b) {
+        return 0;
+    }
+    return 1;
+}
+
 ulong closestSqrRt(ulong n) {
     // a<=sqrt
     ulong a = 2;
@@ -25,7 +36,7 @@ ulong closestSqrRt(ulong n) {
         if (t == n) {
             return z;
         }
-        if (t > n) {
+        if (t > n || overflows(z,t)) {
             b = z;
         }
         else {
