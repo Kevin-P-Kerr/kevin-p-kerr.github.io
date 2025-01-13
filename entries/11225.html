@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archimedes' Root Extraction</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Archimedes' Root Extraction</h1>
+        <p> In  his comprehensive introduction to his translation of the collected works of Archimedes, Heath suggests the following algorithm for computing square roots. 
+        <br><p>
+        If A is the number whose square root is required, while a represents the first term or denomination of the square root and x the next term or denomination still to be found, it would be necessary to use the identity `(a + x)^2 = a^2 + 2ax + x^2` and to find x so that `2ax + x^2` might be somewhat less than the remainder A-a^2. (Arithmetic in Archimedes, Chapter 5). </p><br>
+        <p> Following this method, I computed the following <p>
+        <br><p class="math-block"> 
+            `720/328 < \sqrt{5} < 358/160`
+        </p> <br>
+        <p> With `358/160` being a much closer approximation</p>
+        <br>
+        <p> However, I found it difficult to express this method as a definite algorithm in code.  Finding the greatest square less than a given number is straightforward, but then "guessing" at the appropiate value of x such "that `2ax + x^2` might be somewhat less than the remainder" involved guessing and rational arithmetic which I didn't want to implement.  <p><br>
+        <p> Searching around a bit, I did find a very simple method of root extraction <a href="https://blog.plover.com/math/sqrt-3.html"> here </a>, and what's better is the author claims, using some very plausible sounding arguments, that this method is most likely the one used by Archimedes himself in his derivation of the `\sqrt{3}` to be about `256/153`.  The technique is simple. </p>
+        <p> Consider that a rational approximation to a square root `a/b ≈ \sqrt{x} ->  a^2/b^2 ≈ x`. Therefore `a^2 ≈  x*b^2`. Based on this consideration Dominus considers the following technique (in this case, to compute `\sqrt{3}`). "Simply make a list of perfect squares 1 4 9 16 25 36 49..., and their triples 3 12 27 48 75 108 147..., and look for numbers in one list that are close to numbers in the other list." </p>
+        <p> But the inverse also works.  That is, we can start by computing "large" squares, then dividing them by x and seeing if the result is close to a perfect square. </p>
+        <p> Doing this, I got `4106118243/1836311903` as an approximation to the `\sqrt{5}` and `2642885282/1525870529` as an approximation to the `\sqrt{3}`. Both of these approximations are good through 18 decimal places, which doesn't seem bad for a technique that involves no floating or rational arithmetic. </p><br>
+        <p> How quickly does this technique give "good" approximations for a given root? I'm not sure, but here's some data for `\sqrt{3}` and `\sqrt{5}` </p>
+        <h4> `\sqrt{5}` </h4>
+        <table> 
+            <tr>
+                <th> rational approx </th><th> decimal expansion </th> <th> delta </th> </tr>
+            <tr> <td> 3/1 </td> <td> 3 </td> <td> 0.763 </td></tr>
+            <tr> <td> 5/2 </td> <td>2.5 </td> <td> 0.264 </td></tr>
+            <tr> <td> 7/3 </td> <td> 2.33 </td> <td> 0.0939 </td></tr>
+            <tr> <td> 9/4 </td> <td> 2.25</td><td>0.0139</td></tr>
+            <tr> <td> 47/21 </td> <td> 2.238</td><td>0.002027</td></tr></table>
+        <h4> `\sqrt{3}` </h4>
+        
+        <table> 
+            <tr>
+                <th> rational approx </th><th> decimal expansio </th> <th> delta </th> </tr>
+            <tr> <td> 4/2 </td> <td> 2 </td> <td> 0.267 </td></tr>
+            <tr> <td> 7/4 </td> <td>1.75 </td> <td> 0.0179 </td></tr>
+            <tr> <td> 26/15 </td> <td> 1.72 </td> <td> 0.001282 </td></tr>
+            <tr> <td> 97/56 </td> <td> 1.732</td><td>0.0000920</td></tr>
+            <tr> <td> 194/112 </td> <td> 1.7321</td><td>0.00009204</td></tr></table>
+
+            <p> One thing I would like know: what is the algorithm for determining the closest rational approximation to a square root, given the numerator/denominator are two n-digit/bit numbers?<p>
+
+
