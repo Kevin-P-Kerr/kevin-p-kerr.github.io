@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egyptian Multiplication</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Egyptian Multiplication</h1>
+        <p> Otto Neugebauer, in his <a href="https://ia802301.us.archive.org/7/items/TheExactSciencesInAntiquity/The%20Exact%20Sciences%20in%20Antiquity.pdf">The Exact Sciences in Antiquity</a>  gives the following "additive" method of multiplication that prevalent in Ancient Egypt (though he omits his sources). </p><br>
+        <p> Say we wish to multiply `17` and `23`. We note that `17=2^0+2^5` and process in this way </p>
+        <br><p class="math-block">
+            1  : 23
+            2  : 46
+            4  : 92
+            8  : 184
+            16 : 368
+        </p><br>
+        <p> and write `17*23=368+23=391` </p>
+        <br> <p> clearly this works. `p*q=\sum_{k=0}^{n}2^k*q`, where `2^(n+1)` is the least `n>q`. Expanding this expression by distributing q over the sum shows why it works. </p>
