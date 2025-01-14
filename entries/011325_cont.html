@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursive Root Extraction</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Recursive Root Extraction</h1>
+        <p> While continuing to research ancient methods of root extraction and their investigations into irrational numbers, I came accross the following, "continued fraction" inspired identity. <br>
+        `\sqrt{x} = 1 + (\sqrt{x}-1) = 1+(x-1)/(1+\sqrt{x})`
+        <br>
+        It's straightforward to write this as a <a href="https://github.com/Kevin-P-Kerr/kevin-p-kerr.github.io/blob/main/code/scheme/cont.scm"> scheme one-liner"</a>
+        Computing the square root of two, we get, after n rounds <br>
+        `1 : 4/3` <br>
+        `2 : 10/7` <br>
+        `3: 24/17` <br>
+        After 100 rounds, we get `323466434400377142162623973268164663418/228725309250740208744750893347264645481` which is good through 76 decimal places.
+<br>
+        It's a little funny that this algorithm will never find the roots of perfect squares: It's first approximation to `sqrt{25}` is `25/13`, it's 100th iteration gives `7730662810980169978223422948766613105498644883775/1546132562196033990574082188840405015112916155251` which is about 5.000000000000000016. </p>
