@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Most Proximate Rationals</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <a href="../index.html"> home </a> <br>
+    <div class="container">
+        <h1>Closest Rational Approximations of Square Roots</h1>
+        <p> Early, I asked <a href="./011225.html">what is the algorithm for determining the closest rational approximation to a square root, given the numerator/denominator are two n-digit/bit numbers? </a> </p>  <br>
+        <p> Obviously, one way to answer this question is iterate through every n-bit/digit rational number and, by taking their absolute difference with the square of the number we're seeking, we can determine which most closely approximates to it. This is fairly simple to <a href="https://github.com/Kevin-P-Kerr/kevin-p-kerr.github.io/blob/main/code/factoring/squares/closestRt.c"> code </a> but also very cleary ineffecient.  For if we wish to find every n-bit rational number, then there are `2^n x 2^n=2^2n` of them.  But even if we only iterate over a subset, there are still many over which to iterate.  Additionally, the linked code is flawed--when finding the difference between two rational numbers we don't reduce by the gcd of the numerator and denominator, and so we quickly run into issues with integer overflow. </p> <br>
+<p> However, the code does appear to work, and here are some entries for the sqrt of 3 and 5 </p>
+        <h4> `\sqrt{5}` </h4>
+        <table> 
+            <tr>
+                <th> rational approx </th><th> decimal expansion </th> <th> delta </th> </tr>
+            <tr> <td> 9/4 </td> <td> 2.25 </td> <td> 0.0139 </td></tr>
+            <tr> <td> 38/17 </td> <td>2.235 </td> <td> 0.000773 </td></tr>
+            <tr> <td> 682/305 </td> <td> 2.236065 </td> <td> 0000024 </td></tr>
+        <h4> `\sqrt{3}` </h4>
+        
+        <table> 
+            <tr>
+                <th> rational approx </th><th> decimal expansio </th> <th> delta </th> </tr>
+            <tr> <td> 7/4 </td> <td>1.75 </td> <td> 0.0179 </td></tr>
+            <tr> <td> 26/15 </td> <td> 1.72 </td> <td> 0.001282 </td></tr>
+            <tr> <td> 97/56 </td> <td> 1.732</td><td>0.0000920</td></tr>
+            <tr> <td> 989/571 </td> <td> 1.732049</td><td>00000177</td></tr></table>
+
