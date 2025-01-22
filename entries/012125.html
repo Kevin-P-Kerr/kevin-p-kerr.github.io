@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oblong Numbers</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <a href="../index.html"> home </a> <br>
+    <div class="container">
+        <h1>Oblong Numbers</h1>
+        In Theaetetus 147d, the titular characters relates how <blockquote> Theodorus...showed that sqaures with sides of 3 and 5 are not measurable by a 1 foot square..and proceeded one after the other to those with sides of 17, after which he stopped. </blockquote>
+        Theaetetus' teacher presumably began at 3 because the case of the square root of 2 was already well known.  </p>
+        <br><p class="math-block">
+        let us say that a and b are coprime and `a/b = \sqrt{2}`
+        then `a^2/b^2=2` and `a^2=2b^2`
+        Now clearly, `a^2` is a multiple of two, and thus even. But then `b^2` must also be odd.
+        Since `a^2` is even, so must be `a`, and therefore `a=2e` for some `e` and `a^2 = 4e^2`
+        Then `a^2/2` is even, and `a^2/2=b^2` but then `b^2` must be even, which is impossible. this completes the proof.
+        </p>
+        <p> Theaetetus goes on: <blockquote> All the lines which form the four sides of the equilateral or square numbers ( ἀριθμὸν τετραγωνίζουσι) we called lengths (μῆκος), and those which form the oblong numbers (ἑτερομήκης) we called surds ( δυνάμεις), because they are not commensurable with the others [148b] in length, </blockquote>
+        Surds is translated by others as "powers", which more closely follows  δυνάμεις--from which we get, for example, dynamic. 
+        </p><br>
+        <p> It is not obvious at first why "powers" should be "not commensurable" with the roots of square numbers--that is to say, why the square roots of oblong numbers are irrational.  As A. Wasserstein found in his Theaetetus and the History of the Theory of Numbers, it involves subtle reasoning that escaped even Heath.  <blockquote> that Heath represents as a ve
+tion at all. He writes:
+'We can put the proof quite generally thus. Suppose that N is a non-
+square number such as 3, 5, ..., and, if possible, let `N =r= m/n`, where m, n,
+are integers prime to one another. Therefore `m^2 = N. n^2`; therefore `m^2` is
+divisible by N, so that m also is a multiple of N' (my italics).
+After this the proof proceeds in the traditional way so that the matter is disposed
+of in a few more steps. But everything that comes after this is of no immediate
+interest to us. For the words italicized above represent an invalid step in the
+argument. The divisibility of a square number `m^2` by a number N implies the
+divisibility of m by that number N only where N is not itself the multiple of
+a square number </blockquote>
+<br>
+For example, 5 divides both 10 and 100, but 8 divides 16 but not 4. <br>
+But let's see if we can prove the more general "linear incommensurability of oblong numbers"
+</p><br><p class="math-block">
+Let N be some non-square number, then we wish to prove that `\sqrt{N}` is irrational.
+first, let `a/b=\sqrt{N}` where a and b are coprime to one another.
+then, `a^2/b^2=N` and `a^2=N*b^2`
+let `g = gcd(a,N)` , `j=a^2/g`, `k=N/g` -- clearly j is a whole number, since whatever divides a must also divide its square.
+then we have `j=k*b^2`
+further, it is clear that k and `a/g` are coprime--but it is j coprime to k as well? It is, for suppose that j and k are not coprime, then they have a common factor, x. And that common factor is not in g.  But if it is not in g, it is not in both a and N.  But it is certainly in in N, since `k=N/g`. Therefore, x is not in a.  But if x is not in a, at least its prime factors must be--call these m.  But then m has factors in common with x
