@@ -42,6 +42,8 @@ But let's see if we can prove the more general "linear incommensurability of obl
 Let N be some non-square number, then we wish to prove that `\sqrt{N}` is irrational.
 first, let `a/b=\sqrt{N}` where a and b are coprime to one another.
 then, `a^2/b^2=N` and `a^2=N*b^2`
-let `g = gcd(a,N)` , `j=a^2/g`, `k=N/g` -- clearly j is a whole number, since whatever divides a must also divide its square.
-then we have `j=k*b^2`
-further, it is clear that k and `a/g` are coprime--but it is j coprime to k as well? It is, for suppose that j and k are not coprime, then they have a common factor, x. And that common factor is not in g.  But if it is not in g, it is not in both a and N.  But it is certainly in in N, since `k=N/g`. Therefore, x is not in a.  But if x is not in a, at least its prime factors must be--call these m.  But then m has factors in common with x
+let `g = gcd(a^2,N)` , `j=a^2/g`, `k=N/g`
+now j and k are clearly co-prime. and `j=k*b^2`
+but we also know that j and `b^2` are coprime.
+but it's not possible for j to be the product of 2 coprime numbers. 
+therefore the whole construction collapses, and we have proven that `a/b != \sqrt{N}` by absurdity. </p>
