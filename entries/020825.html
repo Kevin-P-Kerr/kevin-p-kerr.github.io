@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spreads In A Right Triangle</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <a href="../index.html"> home </a> <br>
+    <div class="container">
+        <h1>Sum of Spreads In a Right Triangle</h1>
+        In rational trigonometry, the spread between two lines takes the place of the notion of an angle in the usual or real-numbered trigonometry.  We can define the spread between two lines thus: Let lines AB and CB be two lines which intersect at B.  From some point D on AB draw a line to E on CB, such that DE is perpendicular to CB.  Then `(BD^2)/(BE^2)` is the spread between AB and CB. 
+        <br> <img height=400 src="./triangle.png"></img>
+        <br>For example, suppose the diagram above gives a 3,4,5 triangle, such that 
+        <br>`a=3`<br>
+        `b=4` <br>
+        `c=5` <br>
+        Then, `sBAC = x^2/a^2` and `sACB = x^2/b^2`<br>
+        Now, we have `x^2 + (c-s)^2 = a^2` and `x^2 + s^2 = b^2` <br>
+        Since `b>a` we can subtract the latter from the former, getting <br>
+        `s^2 - (c-s)^2 = b^2-a^2`, or <br>
+        `2cs -s^2 = 7` <br>
+        Again, we know that `c=5`, so 
+        `10s = 32` <br>
+        `s = 32/10` <br>
+        again, since `b=4` <br>
+        `x^2 + 1024/100 = 16`, `x^2 = 576/100 = 144/25`
+        <br> therefore, `sBAC = 144/225` and `sACB = 144/400` <br>
+        Interestingly, these sum to 1. The question naturally arises, do these two spreads in a right triangle always sum to 1? They do. <br>
+        Recall that `sBAC = x^2/a^2` and `sACB = x^2/b^2`, and therefore `sBAC + sACB = (a^2x^2 + b^2x^2)/(a^2b^2)`
+        <br> therefore `sBAC + sACB = (x^2(a^2+b^2))/(a^2b^2) = (x^2c^2)/(a^2b^2)` <br>
+        Then `sBAC + sACB = 1` iff `(x^2c^2) = (a^2b^2)` <br>
+        Now `x^2 + (c-s)^2 = a^2` <br>
+        `x^2 + s^2 = b^2` <br>
+        `(c-s)^2 - b^2 = a^2 - b^2` <br>
+        `c^2 - 2sc = a^2 - b^2` <br>
+        `a^2 + b^2 - 2sc = a^2 - b^2` <br>
+        `-2sc = -2b^2` <br>
+        `-sc = -b^2` <br><br>
+        `sc = b^2` <br><br>
+        `s = b^2/c` <br><br>
+        Then, having found s, and recalling `x^2 + s^2 = b^2` <br>
+        `x^2 + (b^2/c)^2 = b^2` <br><br>
+        `x^2 + b^4/c^2 = b^2` <br><br>
+        `x^2 = b^2 - b^4/c^2` <br><br>
+        `x^2 = (b^2c^2 - b^4)/(c^2)` <br><br>
+        `x^2 = (b^2(c^2-b^2))/c^2` <br><br>
+        `x^2 = (b^2(a^2+b^2-b^2))/c^2` <br><br>
+        `x^2 = (b^2a^2)/c^2` <br><br> and multiplying both sides by `c^2` gives <br>
+        `x^2c^2 = b^2a^2`, as required.
+
+
+
