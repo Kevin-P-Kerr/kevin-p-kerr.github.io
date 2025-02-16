@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Theorems About Numbers</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <a href="../index.html"> home </a> <br>
+    <div class="container">
+        <h1>Some Simple Theorems About Numbers</h1>
+        <h3> 1. The Sum of Coprime Numbers is Coprime to Both </h3>
+            Let m,n be two coprime numbers, and let `q=m+n`<br>
+            Suppose `q=p*m` for some p. Then `p*m=m+n` and `n=p*m-m=m(p-q)` which violates our hypothesis. And similar reasoning applies to n.
+        <h3> 2. The Difference of Coprime Numbers is Coprime to Both </h3>
+        let m,n be the two numbers and in question, and let `p=n-n`<br>
+        let `d=m-n`. Then `d>=1`. Suppose `d>1`, then hypothesis says that d is coprime to both m and n. <br>
+        Suppose this is not so. Then `d=p*m` or `d=p*n` for some p.  Say that `d=p*m`.<br>
+        Then `m-n=p*m` and `p*m-m-n=0` and `p*m-m=n` and `m(p-1)=n.` which violates our hypothesis. and similar reasoning applies to m.
+        <h3> 3. Adjacent Numbers Are Coprime </h3>
+        Let m,n be adjacent numbers, that is, `m-n=1`. Then m and n are coprime. <br>
+        For suppose they are not. Then `m=p*n` and `p*n-n=1`. <br>
+        Then `n(p-1)=1`, which has no integer solution, and is therefore absurd--i.e. violates our hypothesis. 
+        <h3> 4. Of Two Coprime Numbers, the Lesser can Be Added Either to 1 or to a Number Coprime to Both to Produce the Greater </h3>
+        Let m,n be the coprime numbers, with `m>n`. Then there is a p coprime to m and n such that `p+n=m`.
+        If the two numbers are adjacent, the `p=1`, but say they are not adjacent. <br>
+        Let `d=m-n`, then d is coprime to m and n by (2) above, and `d+n=m`
+    </div></body>
+
