@@ -13,7 +13,7 @@ ulong upow(ulong b, ulong p) {
     if (p==0) {
         return 1;
     }
-    ulong n = b;
+    ulong n = 1;
     for(;p>0;p--) {
         n = n*b;
     }

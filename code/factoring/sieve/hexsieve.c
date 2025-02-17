@@ -1,10 +1,20 @@
 #include <string.h>
+// given a value, what is its index
+ulong translate(ulong v) {
+    ulong p = v/6;
+    ulong q = v%6;
+    if (q == 1) {
+        p = p-1;
+        return (p*2)+1;
+    }
+    return p*2;
+}
 // given an index into the sieve, what is the value associated with it?
 ulong calcValue(ulong i) {
     ulong reps = i/2;
     ulong mod = i%2;
     ulong ret = 6*reps;
-    return mod==0?7+ret:5+ret;
+    return mod==0?5+ret:7+ret;
 }
 prime_record *hexSieve(ulong n) {
     //TODO: calculate more precisely the length of the array
@@ -33,9 +43,16 @@ prime_record *hexSieve(ulong n) {
        //mark with the prime, and its powers
        ulong power = 1;
        ulong m = 6*p;
-       for(ulong d = upow(p,power);d<=limit;d=upow(p,++power)) {
-           for(ulong mm = d+m;mm<t;mm+=m) {
-               mark(mm,a);
+       for(ulong d = upow(p,power);d<=n;d=upow(p,++power)) {
+           fprintf(stdout, "here %lu,%lu\n", d,p);
+           if (d>p) {
+               ulong x = translate(d);
+               mark(x,a);
+           }
+           for(ulong mm = d+m;mm<n;mm+=m) {
+               ulong x = translate(mm);
+               fprintf(stdout,"mark: %lu,%lu,%lu\n",mm,x,calcValue(x));
+               mark(x,a);
            }
        }
        // increment j to begin finding the next prime
