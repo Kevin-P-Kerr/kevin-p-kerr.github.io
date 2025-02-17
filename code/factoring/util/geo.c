@@ -9,7 +9,7 @@ ulong findStart(ulong n) {
     return j;
 }
 
-ulong pow(ulong b, ulong p) {
+ulong upow(ulong b, ulong p) {
     if (p==0) {
         return 1;
     }

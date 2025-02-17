@@ -1,3 +1,4 @@
+#include <string.h>
 // given an index into the sieve, what is the value associated with it?
 ulong calcValue(ulong i) {
     ulong reps = i/2;
@@ -32,7 +33,7 @@ prime_record *hexSieve(ulong n) {
        //mark with the prime, and its powers
        ulong power = 1;
        ulong m = 6*p;
-       for(ulong d = pow(p,power);d<=limit;d=pow(p,++power)) {
+       for(ulong d = upow(p,power);d<=limit;d=upow(p,++power)) {
            for(ulong mm = d+m;mm<t;mm+=m) {
                mark(mm,a);
            }
