@@ -17,8 +17,10 @@ ulong calcValue(ulong i) {
     return mod==0?5+ret:7+ret;
 }
 prime_record *hexSieve(ulong n) {
-    //TODO: calculate more precisely the length of the array
-    ulong t = (n/2)-1; // the number of entries in the array
+    while (n%2==0 || n%3==0) {
+        n++;
+    }
+    ulong t = translate(n); // the number of entries in the array
     // calculate the len of the bit array in ulongs
     ulong len = (t/64)+1;
     // initialize the bit array
