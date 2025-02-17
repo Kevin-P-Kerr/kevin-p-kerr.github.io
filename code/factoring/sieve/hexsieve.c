@@ -1,3 +1,10 @@
+// given an index into the sieve, what is the value associated with it?
+ulong calcValue(ulong i) {
+    ulong reps = i/2;
+    ulong mod = i%2;
+    ulong ret = 6*reps;
+    return mod==0?7+ret:5+ret;
+}
 prime_record *hexSieve(ulong n) {
     //TODO: calculate more precisely the length of the array
     ulong t = (n/2)-1; // the number of entries in the array
@@ -40,7 +47,7 @@ prime_record *hexSieve(ulong n) {
     prime_record *secondtolast;
     for(ulong i=0;i<t;i++) {
         if(!isSet(i,a)) {
-            pr->value = (2*i)+3;
+            pr->value = calcValue(i);
             prime_record *nxt = malloc(sizeof(prime_record));
             nxt->next = 0;
             pr->next = nxt;

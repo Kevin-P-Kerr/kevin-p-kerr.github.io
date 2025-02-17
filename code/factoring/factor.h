@@ -18,6 +18,8 @@ ulong abs_diff(ulong x, ulong y);
 
 ulong sfactor(ulong n, prime_record *pr);
 
+prime_record *hexSieve(ulong n);
+
 prime_record *oddSieve(ulong n);
 
 prime_record *sieve(ulong n);
