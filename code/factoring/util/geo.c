@@ -9,6 +9,17 @@ ulong findStart(ulong n) {
     return j;
 }
 
+ulong pow(ulong b, ulong p) {
+    if (p==0) {
+        return 1;
+    }
+    ulong n = b;
+    for(;p>0;p--) {
+        n = n*b;
+    }
+    return n;
+}
+
 int overflows(ulong b, ulong s) {
     if (b==0) {
         return 0;
