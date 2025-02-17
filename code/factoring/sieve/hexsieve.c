@@ -3,6 +3,29 @@ int isSevenExpressed(ulong p) {
     return (p%6)==1?1:0;
 }
 
+int isFiveExpressed(ulong p) {
+    if (p==5) { return 0; }
+    return (p%6)==1?0:1;
+}
+
+// given a prime number p, expressed in the form
+// 5+6m, find a multiple of p that is expressed in the form
+// 7+6n
+ulong getSevenExpressed(ulong p) {
+    // 7+6n = q(5+6m)
+    // 7+6n = 5q+6mq
+    // 6n = 5q+6mq-7
+    // n = (5q+6mq-7)/6
+    // n = (5q-7)/6 + mq
+    // so, the first step is to find some q such that 5q-7 is a multiple of six
+    // that makes q a static value, namely 17, and d=13
+    // 5+6m=p
+    // 6m = p-5
+    // m = p-5/6
+    ulong m = (p-5)/6;
+    return 13+m;
+}
+
 ulong getFiveExpressed(ulong p) {
    ulong diff = p-5;
    ulong t = 1;
@@ -69,6 +92,14 @@ prime_record *hexSieve(ulong n) {
            }
            if (isSevenExpressed(p)) {
                ulong mm = getFiveExpressed(p);
+               for(;mm<n;mm+=m) {
+                   ulong x = translate(mm);
+                   mark(x,a);
+               }
+           }
+           else if (isFiveExpressed(p)) {
+               ulong mm = getSevenExpressed(p);
+               fprintf(stdout, "fiveexp: %lu,%lu\n",mm,p);
                for(;mm<n;mm+=m) {
                    ulong x = translate(mm);
                    mark(x,a);
