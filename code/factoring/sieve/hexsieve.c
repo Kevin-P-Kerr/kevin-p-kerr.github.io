@@ -1,4 +1,20 @@
 #include <string.h>
+int isSevenExpressed(ulong p) {
+    return (p%6)==1?1:0;
+}
+
+ulong getFiveExpressed(ulong p) {
+   ulong diff = p-5;
+   ulong t = 1;
+   while (1) {
+       ulong j = 6*t;
+       j = j-diff;
+       if (j%p ==0) {
+           return 5+(6*t);
+       }
+       t++;
+   }
+}
 // given a value, what is its index
 ulong translate(ulong v) {
     ulong p = v/6;
@@ -50,6 +66,13 @@ prime_record *hexSieve(ulong n) {
            if (d>p) {
                ulong x = translate(d);
                mark(x,a);
+           }
+           if (isSevenExpressed(p)) {
+               ulong mm = getFiveExpressed(p);
+               for(;mm<n;mm+=m) {
+                   ulong x = translate(mm);
+                   mark(x,a);
+               }
            }
            for(ulong mm = d+m;mm<n;mm+=m) {
                ulong x = translate(mm);
