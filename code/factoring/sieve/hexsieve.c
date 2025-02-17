@@ -23,7 +23,33 @@ prime_record *hexSieve(ulong n) {
            }
        }
        //mark with the prime, and its powers
-       ulong pow = 1;
-
+       ulong power = 1;
+       ulong m = 6*p;
+       for(ulong d = pow(p,power);d<=limit;d=pow(p,++power)) {
+           for(ulong mm = d+m;mm<t;mm+=m) {
+               mark(mm,a);
+           }
+       }
+       // increment j to begin finding the next prime
+       j++;
     }
+    // gather
+    prime_record *anchor = malloc(sizeof(prime_record));
+    prime_record *pr = anchor;
+    pr->next = 0;
+    prime_record *secondtolast;
+    for(ulong i=0;i<t;i++) {
+        if(!isSet(i,a)) {
+            pr->value = (2*i)+3;
+            prime_record *nxt = malloc(sizeof(prime_record));
+            nxt->next = 0;
+            pr->next = nxt;
+            secondtolast = pr;
+            pr=nxt;
+        }
+    }
+    secondtolast->next =0;
+    free(pr);
+    free(a);
+    return anchor;
 }
