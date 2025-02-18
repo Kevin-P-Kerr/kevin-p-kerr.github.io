@@ -1,4 +1,4 @@
-
+#include <string.h>
 prime_record *sieve(ulong n) {
     ulong len = 1+(n/64);
     ulong *a = malloc(sizeof(ulong)*len);

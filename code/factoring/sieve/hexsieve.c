@@ -70,7 +70,7 @@ prime_record *hexSieve(ulong n) {
        ulong power = 1;
        ulong m = 6*p;
        for(ulong d = upow(p,power);d<=n;d=upow(p,++power)) {
-           fprintf(stdout, "here %lu,%lu\n", d,p);
+           //fprintf(stdout, "here %lu,%lu\n", d,p);
            if (d>p) {
                ulong x = translate(d);
                mark(x,a);
@@ -84,7 +84,7 @@ prime_record *hexSieve(ulong n) {
            }
            for(ulong mm = d+m;mm<n;mm+=m) {
                ulong x = translate(mm);
-               fprintf(stdout,"mark: %lu,%lu,%lu\n",mm,x,calcValue(x));
+               //fprintf(stdout,"mark: %lu,%lu,%lu\n",mm,x,calcValue(x));
                mark(x,a);
            }
        }
