@@ -5,7 +5,7 @@ prime_record *hSieve(ulong n) {
     ulong entries = 2*((n/6)+1);
     ulong len = (entries/64)+1;
     // instantiate the array
-    prime_record *a = malloc(sizeof(prime_record)*len);
+    ulong *a = malloc(sizeof(ulong)*len);
     memset(a,0,sizeof(ulong)*len);
     ulong limit = closestSqrRt(n);
     //mark the array
@@ -22,7 +22,7 @@ prime_record *hSieve(ulong n) {
                 if(i%2==0) {
                     // 5+6*n
                     p = 5+(6*n);
-                    ifFive = 1;
+                    isFive = 1;
                 }
                 else {
                     p = 7+(6*n);
@@ -58,7 +58,7 @@ prime_record *hSieve(ulong n) {
     prime_record *pr = anchor;
     pr->next = 0;
     prime_record *secondtolast;
-    for(ulong i=0;i<t;i++) {
+    for(ulong i=0;i<len;i++) {
         if(!isSet(i,a)) {
             ulong odd = i%2;
             ulong k;
@@ -81,11 +81,5 @@ prime_record *hSieve(ulong n) {
     free(pr);
     free(a);
     return anchor;
-
-
-
-
-
-    }
-
 }
+
