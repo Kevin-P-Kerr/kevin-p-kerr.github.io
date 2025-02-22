@@ -31,20 +31,22 @@ prime_record *hSieve(ulong n) {
                 break;
             }
         }
-        fprintf(stdout,"%lu,%lu\n",p,i);
+        //fprintf(stdout,"%lu,%lu\n",p,i);
         // mark
         ulong j = i+(2*p);
         for(;j<t;j+=(2*p)) {
-            fprintf(stdout,"marking %lu\n",j);
+            //fprintf(stdout,"marking %lu\n",j);
             mark(j,a);
         }
         if (isFive) {
             j = 1;
             int found = 0;
-            for(;j<t;j++) {
+            for(;j<t;j+=2) {
                 if (!isSet(j,a)) {
                     ulong n = j/2;
-                    if (((7+(6*n))%p) == 0) {
+                    ulong v = 7+(6*n);
+                    if ((v%p) == 0) {
+                        //fprintf(stdout,"marking, %lu,%lu\n",j,v);
                         mark(j,a);
                         found = 1;
                         break;
@@ -54,18 +56,19 @@ prime_record *hSieve(ulong n) {
             if (found) { 
                 j = j+(2*p);
                 for(;j<t;j+=(2*p)) {
-                    fprintf(stdout,"marking: %lu\n",j);
+                    //fprintf(stdout,"marking: %lu\n",j);
                     mark(j,a);
                 }
             }
         }
         i++;
     }
-    fprintf(stdout,"Done\n");
+    //fprintf(stdout,"Done\n");
     // gather
     prime_record *anchor = malloc(sizeof(prime_record));
     prime_record *pr = anchor;
     pr->next = 0;
+    prime_record *secondtolast;
     for(ulong i=0;i<t;i++) {
         if(!isSet(i,a)) {
             ulong odd = i%2;
@@ -76,14 +79,17 @@ prime_record *hSieve(ulong n) {
             else {
                 k = (7+(6*(i/2)));
             }
-            fprintf(stdout,"prime: %lu\n",k);
+            //fprintf(stdout,"prime: %lu\n",k);
             pr->value = k;
             prime_record *nxt = malloc(sizeof(prime_record));
             nxt->next = 0;
             pr->next = nxt;
+            secondtolast = pr;
             pr=nxt;
         }
     }
+    secondtolast->next = 0;
+    free(pr);
     free(a);
     return anchor;
 }
