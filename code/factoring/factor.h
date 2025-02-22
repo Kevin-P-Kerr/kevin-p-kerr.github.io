@@ -33,3 +33,4 @@ int is_prime(ulong n);
 ulong gcd(ulong a, ulong b);
 
 ulong upow(ulong b, ulong p);
+prime_record *vs(ulong n);
