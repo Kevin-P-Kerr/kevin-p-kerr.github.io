@@ -40,7 +40,7 @@ ulong calcValue(ulong i) {
     ulong ret = 6*reps;
     return mod==0?5+ret:7+ret;
 }
-prime_record *hexSieve(ulong n) {
+sieve_result *hexSieve(ulong n) {
     while (n%2==0 || n%3==0) {
         n++;
     }
@@ -96,6 +96,7 @@ prime_record *hexSieve(ulong n) {
     prime_record *pr = anchor;
     pr->next = 0;
     prime_record *secondtolast;
+    ulong count = 2;
     for(ulong i=0;i<t;i++) {
         if(!isSet(i,a)) {
             pr->value = calcValue(i);
@@ -104,10 +105,14 @@ prime_record *hexSieve(ulong n) {
             pr->next = nxt;
             secondtolast = pr;
             pr=nxt;
+            count++;
         }
     }
     secondtolast->next =0;
     free(pr);
     free(a);
-    return anchor;
+    sieve_result *ret = malloc(sizeof(sieve_result));
+    ret->count = count;
+    ret->primes = anchor;
+    return ret;
 }

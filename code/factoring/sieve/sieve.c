@@ -1,5 +1,5 @@
 #include <string.h>
-prime_record *sieve(ulong n) {
+sieve_result *sieve(ulong n) {
     ulong len = 1+(n/64);
     ulong *a = malloc(sizeof(ulong)*len);
     memset(a,0,sizeof(ulong)*len);
@@ -24,6 +24,7 @@ prime_record *sieve(ulong n) {
     record->value = 2;
     record->next = 0;
     prime_record *anchor = record;
+    ulong count = 1;
     for(ulong i=3;i<n;i++) {
         if(!isSet(i,a)) {
             prime_record *n = malloc(sizeof(prime_record));
@@ -31,8 +32,12 @@ prime_record *sieve(ulong n) {
             n->next = 0;
             record->next = n;
             record = n;
+            count++;
         }
     }
     free(a);
-    return anchor;
+    sieve_result *ret = malloc(sizeof(sieve_result));
+    ret->count = count;
+    ret->primes = anchor;
+    return ret;
 }

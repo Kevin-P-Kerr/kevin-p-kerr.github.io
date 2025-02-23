@@ -1,6 +1,6 @@
 #include<string.h>
 
-prime_record *oddSieve(ulong n) {
+sieve_result *oddSieve(ulong n) {
     ulong t = (n/2)-1; // the number of entries in the array
     // calculate the len of the bit array in ulongs
     ulong len = (t/64)+1;
@@ -34,6 +34,8 @@ prime_record *oddSieve(ulong n) {
     prime_record *pr = anchor;
     pr->next = 0;
     prime_record *secondtolast;
+    // consider 2;
+    ulong count = 1;
     for(ulong i=0;i<t;i++) {
         if(!isSet(i,a)) {
             pr->value = (2*i)+3;
@@ -42,10 +44,14 @@ prime_record *oddSieve(ulong n) {
             pr->next = nxt;
             secondtolast = pr;
             pr=nxt;
+            count++;
         }
     }
     secondtolast->next =0;
     free(pr);
     free(a);
-    return anchor;
+    sieve_result *ret = malloc(sizeof(sieve_result));
+    ret->count = count;
+    ret->primes = anchor;
+    return ret;
 }

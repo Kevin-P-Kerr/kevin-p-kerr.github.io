@@ -10,6 +10,11 @@ typedef struct rat {
     ulong denom;
 } rat;
 
+typedef struct sr {
+    prime_record *primes;
+    ulong count;
+} sieve_result;
+
 ulong closestSqrRt(ulong n);
 
 ulong isSqr(ulong n);

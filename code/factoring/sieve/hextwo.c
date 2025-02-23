@@ -1,6 +1,6 @@
 #include<string.h>
 
-prime_record *hSieve(ulong n) {
+sieve_result *hSieve(ulong n) {
     // calculate the length of the array
     ulong entries = 2*((n/6)+1);
     ulong t = entries;
@@ -92,6 +92,7 @@ prime_record *hSieve(ulong n) {
     prime_record *pr = anchor;
     pr->next = 0;
     prime_record *secondtolast;
+    ulong count = 2;
     for(ulong i=0;i<t;i++) {
         if(!isSet(i,a)) {
             ulong odd = i%2;
@@ -109,11 +110,15 @@ prime_record *hSieve(ulong n) {
             pr->next = nxt;
             secondtolast = pr;
             pr=nxt;
+            count++;
         }
     }
     secondtolast->next = 0;
     free(pr);
     free(a);
-    return anchor;
+    sieve_result *ret = malloc(sizeof(sieve_result));
+    ret->count = count;
+    ret->primes = anchor;
+    return ret;
 }
 
