@@ -23,11 +23,11 @@ ulong abs_diff(ulong x, ulong y);
 
 ulong sfactor(ulong n, prime_record *pr);
 
-prime_record *hexSieve(ulong n);
+sieve_result *hexSieve(ulong n);
 
-prime_record *oddSieve(ulong n);
+sieve_result *oddSieve(ulong n);
 
-prime_record *sieve(ulong n);
+sieve_result *sieve(ulong n);
 
 void mark(ulong n, ulong *a);
 
@@ -38,4 +38,4 @@ int is_prime(ulong n);
 ulong gcd(ulong a, ulong b);
 
 ulong upow(ulong b, ulong p);
-prime_record *vs(ulong n);
+sieve_result *vs(ulong n);
