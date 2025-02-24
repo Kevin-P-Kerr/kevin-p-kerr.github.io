@@ -42,19 +42,66 @@ sieve_result *hSieve(ulong n) {
         j = 0;
         if (isFive) {
             // we are looking for a value m, such that
-            // 7+6n = 5m
+            // 7+6n = pm
             // knowing n will also be useful as it will tell us the index into the array
             if (p == 5) {
                 found = 1;
                 j = 7;
                 //fprintf(stdout,"%lu!!!\n",7+(6*(j/2)));
             }
+            else {
+                ulong z = (p-7)%6;
+                if ((p-7) < 6) {
+                    z = 6-(p-7);
+                }
+                ulong tuple;
+                if (z == 0) {
+                    //m=1
+                    tuple = (p-7)/6;
+                    tuple--;
+                    j = tuple*2;
+                    j++;
+                    found = 1;
+                }
+                else {
+                    fprintf(stdout,"here %lu\n",p);
+                    ulong diff = 6-z;
+                    ulong m = diff*p;
+                    m+=p;
+                    tuple = (m-7)/6;
+                    fprintf(stdout,"\t%lu,%lu,%lu\n",z,m,tuple);
+                    j = tuple*2;
+                    j++;
+                    found = 1;
+                }
+            }
         }
         else {
+            j = 0;
+            int found = 0;
+            for(;j<t;j+=2) {
+                if (!isSet(j,a)) {
+                    ulong n = j/2;
+                    ulong v = 5+(6*n);
+                    if ((v%p) == 0) {
+                        //fprintf(stdout,"marking, %lu,%lu\n",j,v);
+                        mark(j,a);
+                        found = 1;
+                        break;
+                    }
+                }
+            }
+            if (found) {
+                j = j+(2*p);
+                for(;j<t;j+=(2*p)) {
+                    //fprintf(stdout,"marking: %lu\n",j);
+                    mark(j,a);
+                }
+            }
         }
         if (found) { 
             for(;j<t;j+=(2*p)) {
-                //fprintf(stdout,"marking: %lu\n",j);
+                fprintf(stdout,"marking: %lu\n",j);
                 mark(j,a);
             }
         }
