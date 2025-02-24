@@ -73,7 +73,6 @@ sieve_result *hSieve(ulong n) {
             }
         }
         else {
-            /*
             j = 0;
             int found = 0;
             for(;j<t;j+=2) {
@@ -95,11 +94,10 @@ sieve_result *hSieve(ulong n) {
                     mark(j,a);
                 }
             }
-            */
         }
         if (found) { 
             for(;j<t;j+=(2*p)) {
-                fprintf(stdout,"marking: %lu\n",j);
+                fprintf(stdout,"marking: %lu,%lu\n",j,7+6*(j/2));
                 mark(j,a);
             }
         }
