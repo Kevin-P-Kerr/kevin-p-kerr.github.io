@@ -39,12 +39,20 @@ sieve_result *hSieve(ulong n) {
             mark(j,a);
         }
         int found = 0;
+        j = 0;
         if (isFive) {
+            // we are looking for a value m, such that
+            // 7+6n = 5m
+            // knowing n will also be useful as it will tell us the index into the array
+            if (p == 5) {
+                found = 1;
+                j = 7;
+                //fprintf(stdout,"%lu!!!\n",7+(6*(j/2)));
+            }
         }
         else {
         }
         if (found) { 
-            j = j+(2*p);
             for(;j<t;j+=(2*p)) {
                 //fprintf(stdout,"marking: %lu\n",j);
                 mark(j,a);
