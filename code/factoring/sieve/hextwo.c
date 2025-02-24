@@ -51,9 +51,6 @@ sieve_result *hSieve(ulong n) {
             }
             else {
                 ulong z = (p-7)%6;
-                if ((p-7) < 6) {
-                    z = 6-(p-7);
-                }
                 ulong tuple;
                 if (z == 0) {
                     //m=1
@@ -65,8 +62,7 @@ sieve_result *hSieve(ulong n) {
                 }
                 else {
                     fprintf(stdout,"here %lu\n",p);
-                    ulong diff = 6-z;
-                    ulong m = diff*p;
+                    ulong m = z*p;
                     m+=p;
                     tuple = (m-7)/6;
                     fprintf(stdout,"\t%lu,%lu,%lu\n",z,m,tuple);
@@ -77,6 +73,7 @@ sieve_result *hSieve(ulong n) {
             }
         }
         else {
+            /*
             j = 0;
             int found = 0;
             for(;j<t;j+=2) {
@@ -98,6 +95,7 @@ sieve_result *hSieve(ulong n) {
                     mark(j,a);
                 }
             }
+            */
         }
         if (found) { 
             for(;j<t;j+=(2*p)) {
