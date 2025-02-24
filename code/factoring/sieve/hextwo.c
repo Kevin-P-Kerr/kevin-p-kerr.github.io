@@ -1,16 +1,5 @@
 #include<string.h>
 
-// given a value, what is its index
-ulong translate(ulong v) {
-    ulong p = v/6;
-    ulong q = v%6;
-    if (q == 1) {
-        p = p-1;
-        return (p*2)+1;
-    }
-    return p*2;
-}
-
 sieve_result *hSieve(ulong n) {
     // calculate the length of the array
     ulong entries = 2*((n/6)+1);
