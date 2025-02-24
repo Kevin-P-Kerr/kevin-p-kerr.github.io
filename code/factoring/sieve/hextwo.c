@@ -1,5 +1,16 @@
 #include<string.h>
 
+// given a value, what is its index
+ulong translate(ulong v) {
+    ulong p = v/6;
+    ulong q = v%6;
+    if (q == 1) {
+        p = p-1;
+        return (p*2)+1;
+    }
+    return p*2;
+}
+
 sieve_result *hSieve(ulong n) {
     // calculate the length of the array
     ulong entries = 2*((n/6)+1);
@@ -39,49 +50,14 @@ sieve_result *hSieve(ulong n) {
             mark(j,a);
         }
         if (isFive) {
-            j = 1;
-            int found = 0;
-            for(;j<t;j+=2) {
-                if (!isSet(j,a)) {
-                    ulong n = j/2;
-                    ulong v = 7+(6*n);
-                    if ((v%p) == 0) {
-                        //fprintf(stdout,"marking, %lu,%lu\n",j,v);
-                        mark(j,a);
-                        found = 1;
-                        break;
-                    }
-                }
-            }
-            if (found) { 
-                j = j+(2*p);
-                for(;j<t;j+=(2*p)) {
-                    //fprintf(stdout,"marking: %lu\n",j);
-                    mark(j,a);
-                }
-            }
         }
         else {
-            j = 0;
-            int found = 0;
-            for(;j<t;j+=2) {
-                if (!isSet(j,a)) {
-                    ulong n = j/2;
-                    ulong v = 5+(6*n);
-                    if ((v%p) == 0) {
-                        //fprintf(stdout,"marking, %lu,%lu\n",j,v);
-                        mark(j,a);
-                        found = 1;
-                        break;
-                    }
-                }
-            }
-            if (found) { 
-                j = j+(2*p);
-                for(;j<t;j+=(2*p)) {
-                    //fprintf(stdout,"marking: %lu\n",j);
-                    mark(j,a);
-                }
+        }
+        if (found) { 
+            j = j+(2*p);
+            for(;j<t;j+=(2*p)) {
+                //fprintf(stdout,"marking: %lu\n",j);
+                mark(j,a);
             }
         }
         i++;
