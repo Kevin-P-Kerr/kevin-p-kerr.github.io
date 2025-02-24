@@ -49,6 +49,7 @@ sieve_result *hSieve(ulong n) {
             //fprintf(stdout,"marking %lu\n",j);
             mark(j,a);
         }
+        int found = 0;
         if (isFive) {
         }
         else {
