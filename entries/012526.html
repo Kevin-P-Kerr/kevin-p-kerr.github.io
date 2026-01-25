@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spreads In A Right Triangle</title>
+    <title>Solving Linear Equations</title>
     <link rel="stylesheet" href="../blog_styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
 </head>
@@ -13,10 +13,10 @@
         <h1>Solving Linear Equations</h1>
         Consider the following equation
         `5x+7y=27` <br>
-        Say we wish to find positive integer solutions. We can follow the approch elaborated by Euler and which I found in a short text book on continued fractions (n.b. this approach does not use continued fractions--that is elaborated in a further chapter.) We begin by searching for integer solutions, positive or negative, and then restrict our search to positive solutions.
+        Say we wish to find positive integer solutions. We can follow the approach elaborated by Euler and which I found in a short text book on continued fractions (n.b. this approach does not use continued fractions--that is elaborated in a further chapter.) We begin by searching for integer solutions, positive or negative, and then restrict our search to positive solutions.
         `x=5-y+(2(1-y)/5)` <br>
         let `z=2(1-y)/5`, then `x=5-y+z` <br>
-        So that if y is an intger, so will be x. <br><br>
+        So that if y is an integer, so will be x. <br><br>
         `5z=2-2y`, therefore `y=(2-5z)/2=1-2z-z/2` <br>
         If we let `m=z/2` then `z=2m` and <br>
         `y=1-5m`, `x=4+7m` <br>
@@ -25,3 +25,216 @@
         `4+7m>0` <br> `1-5m>0`, and find<br>
         `m>(-1)20/35` and `m<7/35` <br>
         There is one integer between these two fractions, namely 0. so x=4,y=1 gives the only integer solution to our problem.
+        <br> Next, we would like to find a general method of computing linear equations of two variables, finding the _form_ that x and y must take to furnish integer solutions (when possible), and finding the critical region where the integer solutions are positive, if it exists. <br>
+        <br> Now, in the equation `Ax + By = C`, if A and B are coprime to C, but are not coprime to one another, then there are no integer solutions to the equation.  For let `A=p*m` and `B=pq`, the `x*p*m + ypq = C = p(xm+yq).` and `xm+yq=C/p`, but p cannot divide C by hypothesis, so at least one of xm and yq must not be an integer.  So we will suppose in this discussion that A and B are coprime to C and to each other. <br>
+        <br> Next, we notice there are 4 variables in the example we worked, x,y,z,m. <br>
+        <br> `z = (r_1-r_2y)/A` where `r_1` and `r_2` are the remainders of dividing C and B by A, respectively. <br>
+        <br> then `zA = r_1-r_2y`, which implies `y = (r_1-zA)/r_2` <br>
+        <br> then `m = (r_4-r_3z)/r_2` where `r_3` and `r_4` are the remainders... <br> 
+        This suggests that we can calculate the solution space to these problems by computing sequentially...
+        <br>
+        <style>
+    .solver-box {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        font-family: sans-serif;
+    }
+    .input-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .input-group label { font-weight: bold; }
+    .input-group input {
+        padding: 5px;
+        width: 60px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .solve-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .solve-btn:hover { background-color: #0056b3; }
+    .results-area {
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 15px;
+        display: none; /* Hidden until solved */
+    }
+    .result-section { margin-bottom: 12px; }
+    .result-title { font-weight: bold; color: #333; margin-bottom: 5px; display: block;}
+    .math-font { font-family: "Courier New", Courier, monospace; background: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
+    .error-msg { color: #d9534f; font-weight: bold; }
+    .success-msg { color: #28a745; font-weight: bold; }
+</style>
+
+<div class="solver-box">
+    <h3>Euler's Linear Solver Tool</h3>
+    <p>Enter values for <code>Ax + By = C</code> to see the remainders and solution forms.</p>
+
+    <div class="input-group">
+        <label>A:</label> <input type="number" id="in_A" value="5">
+        <label>B:</label> <input type="number" id="in_B" value="7">
+        <label>C:</label> <input type="number" id="in_C" value="27">
+        <button class="solve-btn" onclick="solveEuler()">Calculate</button>
+    </div>
+
+    <div id="output" class="results-area"></div>
+</div>
+
+<script>
+function solveEuler() {
+    // 1. Get Inputs
+    const A = parseInt(document.getElementById('in_A').value);
+    const B = parseInt(document.getElementById('in_B').value);
+    const C = parseInt(document.getElementById('in_C').value);
+    const out = document.getElementById('output');
+    out.style.display = 'block';
+
+    // 2. Validation
+    if (isNaN(A) || isNaN(B) || isNaN(C) || A === 0) {
+        out.innerHTML = '<span class="error-msg">Please enter valid integers (A cannot be 0).</span>';
+        return;
+    }
+
+    // 3. GCD Check
+    function gcd(x, y) { return y === 0 ? x : gcd(y, x % y); }
+    const g = gcd(Math.abs(A), Math.abs(B));
+
+    if (C % g !== 0) {
+        out.innerHTML = `<span class="error-msg">No integer solutions exist because gcd(${A}, ${B}) = ${g}, which does not divide ${C}.</span>`;
+        return;
+    }
+
+    // 4. Calculate Remainders (Euler Step Logic)
+    // Note: JS modulo of negative numbers behaves differently than math modulo,
+    // but assuming positive inputs A,B based on context.
+
+    // Step 1: x = ... + (r1 - r2*y)/A
+    const r1 = C % A;
+    const r2 = B % A;
+
+    // Step 2: y = ... + (r3 - r4*z)/r2
+    // If r2 is 0, the recursion stops early, but for the general form we assume steps.
+    let r3 = 0, r4 = 0;
+    if (r2 !== 0) {
+        r3 = A % r2;
+        r4 = r1 % r2;
+    }
+
+    // 5. Derive Constants for m=0
+    // We reverse engineer the constants x_const and y_const by setting m=0
+    // Logic: m = (r3*z - r4)/r2  -> if m=0, r3*z = r4.
+    // This is simple if r3=1. If r3!=1, z might be fractional in this specific m-definition,
+    // but we will calculate the float to find the intercept.
+
+    let z_val = 0;
+    if (r3 !== 0) z_val = r4 / r3;
+
+    let y_const = 0;
+    if (r2 !== 0) y_const = (r1 - A * z_val) / r2;
+
+    let x_const = (C - B * y_const) / A;
+
+    // 6. Slope Calculations
+    // General form is always: x = x_const + (B/g)m, y = y_const - (A/g)m
+    // (Signs might flip depending on how m is defined, but magnitude is fixed.
+    // Based on user example: y = 1 - 5m (slope -A), x = 4 + 7m (slope B).
+    const slope_x = B / g;
+    const slope_y = -A / g;
+
+    // 7. Calculate Critical Region (x>0, y>0)
+    // x > 0 -> x_const + slope_x*m > 0
+    // y > 0 -> y_const + slope_y*m > 0
+
+    let m_min = -Infinity;
+    let m_max = Infinity;
+    let inequalities = [];
+
+    // Analyze X inequality
+    const limit_x = -x_const / slope_x;
+    if (slope_x > 0) {
+        m_min = Math.max(m_min, limit_x);
+        inequalities.push(`m > ${limit_x.toFixed(2)}`);
+    } else {
+        m_max = Math.min(m_max, limit_x);
+        inequalities.push(`m < ${limit_x.toFixed(2)}`);
+    }
+
+    // Analyze Y inequality
+    const limit_y = -y_const / slope_y;
+    if (slope_y > 0) {
+        m_min = Math.max(m_min, limit_y);
+        inequalities.push(`m > ${limit_y.toFixed(2)}`);
+    } else {
+        m_max = Math.min(m_max, limit_y);
+        inequalities.push(`m < ${limit_y.toFixed(2)}`);
+    }
+
+    // 8. Find Integers
+    let solutions = [];
+    const start = Math.floor(m_min) - 2;
+    const end = Math.ceil(m_max) + 2;
+
+    // Safety clamp to prevent infinite loops if bounds are open
+    const safe_start = Math.max(start, -100);
+    const safe_end = Math.min(end, 100);
+
+    for (let m = safe_start; m <= safe_end; m++) {
+        // Evaluate strictly against inequalities to be precise
+        let x_val = x_const + slope_x * m;
+        let y_val = y_const + slope_y * m;
+
+        // Floating point tolerance check
+        if (Math.abs(Math.round(x_val) - x_val) < 0.0001) x_val = Math.round(x_val);
+        if (Math.abs(Math.round(y_val) - y_val) < 0.0001) y_val = Math.round(y_val);
+
+        if (x_val > 0 && y_val > 0 && Number.isInteger(x_val) && Number.isInteger(y_val)) {
+            solutions.push(`(x=${x_val}, y=${y_val}) at m=${m}`);
+        }
+    }
+
+    // 9. Build HTML Output
+    let html = `
+        <div class="result-section">
+            <span class="result-title">1. Remainders:</span>
+            <span class="math-font">r₁ = ${r1}</span>,
+            <span class="math-font">r₂ = ${r2}</span>,
+            <span class="math-font">r₃ = ${r3}</span>,
+            <span class="math-font">r₄ = ${r4}</span>
+        </div>
+
+        <div class="result-section">
+            <span class="result-title">2. General Form (in terms of m):</span>
+            <span class="math-font">x = ${x_const} + ${slope_x}m</span><br>
+            <span class="math-font">y = ${y_const} ${slope_y >= 0 ? '+' : ''}${slope_y}m</span>
+        </div>
+
+        <div class="result-section">
+            <span class="result-title">3. Critical Region (Positive Solutions):</span>
+            ${inequalities.join(" AND ")}
+        </div>
+
+        <div class="result-section">
+            <span class="result-title">4. Integer Solutions Found:</span>
+            ${solutions.length > 0 ? solutions.join("<br>") : "<span class='error-msg'>No positive integer solutions.</span>"}
+        </div>
+    `;
+
+    out.innerHTML = html;
+}
+</script>
+</body></html>
