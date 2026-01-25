@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spreads In A Right Triangle</title>
+    <link rel="stylesheet" href="../blog_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+</head>
+<body>
+    <a href="../index.html"> home </a> <br>
+    <div class="container">
+        <h1>Solving Linear Equations</h1>
+        Consider the following equation
+        `5x+7y=27` <br>
+        Say we wish to find positive integer solutions. We can follow the approch elaborated by Euler and which I found in a short text book on continued fractions (n.b. this approach does not use continued fractions--that is elaborated in a further chapter.) We begin by searching for integer solutions, positive or negative, and then restrict our search to positive solutions.
+        `x=5-y+(2(1-y)/5)` <br>
+        let `z=2(1-y)/5`, then `x=5-y+z` <br>
+        So that if y is an intger, so will be x. <br><br>
+        `5z=2-2y`, therefore `y=(2-5z)/2=1-2z-z/2` <br>
+        If we let `m=z/2` then `z=2m` and <br>
+        `y=1-5m`, `x=4+7m` <br>
+        Then `5x+7y=20+35m+7-35m=27` confirms our work thus far.<br>
+        Finally, since want to find instances where `x,y>0` we consider these inequalities <br>
+        `4+7m>0` <br> `1-5m>0`, and find<br>
+        `m>(-1)20/35` and `m<7/35` <br>
+        There is one integer between these two fractions, namely 0. so x=4,y=1 gives the only integer solution to our problem.
