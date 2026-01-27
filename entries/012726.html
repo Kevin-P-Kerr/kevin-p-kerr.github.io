@@ -10,4 +10,19 @@
 <body>
     <a href="../index.html"> home </a> <br>
     <div class="container">
-        <h1>Solving Linear Equations</h1>
+        <h1>Solving (More) Linear Equations</h1>
+        <a href="/012526.html"> Last time </a> we found a general method for finding integer solutions of linear diophantine equations of two variables.  But say there three variables--what then? Let's try working out an example. <br>
+        `10x+3y+7z=43` <br>
+        First, we can rewrite this as <br>
+        `10x+b=43`, and solve that for
+        `x=4+m` and `b=3-10m`, then <br>
+        `3y+7z=3-10m`, solving first for y we find <br><br>
+        `y=1-3m-2z+(-m-z)/3` <br>
+        setting `d=(-m-z)/3`, we get `3d=-m-z`<br>
+        so that <br>
+        `y=1-m-7d` <br>
+        `z=-3d-m` <br>
+        `x=4+m`, which gives us the general form which any integer solution will take. Finding positive integer solutons is more difficult and won't be dealt with in this post. <br>
+        This suggest a few things. <br>
+        1st, there should be a general procedure for computing integer solutions to linear diophantine equations of arbitrary unknowns, when this is possible. <br>
+        2nd, letting N be the number of unknowns in the given equation, the form in which the various unknowns will be expressed will range over (N-1) variables.  Let's deal with each in turn.
