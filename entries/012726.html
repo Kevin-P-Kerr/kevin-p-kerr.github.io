@@ -11,7 +11,7 @@
     <a href="../index.html"> home </a> <br>
     <div class="container">
         <h1>Solving (More) Linear Equations</h1>
-        <a href="/012526.html"> Last time </a> we found a general method for finding integer solutions of linear diophantine equations of two variables.  But say there three variables--what then? Let's try working out an example. <br>
+        <a href="012526.html"> Last time </a> we found a general method for finding integer solutions of linear diophantine equations of two variables.  But say there three variables--what then? Let's try working out an example. <br>
         `10x+3y+7z=43` <br>
         First, we can rewrite this as <br>
         `10x+b=43`, and solve that for
@@ -26,3 +26,25 @@
         This suggest a few things. <br>
         1st, there should be a general procedure for computing integer solutions to linear diophantine equations of arbitrary unknowns, when this is possible. <br>
         2nd, letting N be the number of unknowns in the given equation, the form in which the various unknowns will be expressed will range over (N-1) variables.  Let's deal with each in turn.
+        <h2> The Procedure </h2>
+        Whereas in the previous installment, when dealing with the equations Ax+By=C, we checked that A and B were coprime, we can actually use a somewhat more flexible condition here. <br>
+        Again, let Ax+By=C, then there are integer solutions iff g divides C, where `g=gcd(A,B)`. <br>
+        Given that stipulation, we next calculate b,c,s where s=C/g and b,c are the smallest variables such that Ab+Bc=g (in practice, we can get these for free from the extended euclidean algorithm for calcuating g). <br>
+        Then `x=sb+B/g` and `y=sc-A/g` <br>
+        Then `Ax = Asb+AB/g` and `By = Bsc -BA/g` <br>
+        `Ax+By=Asb+Bsc` and `Ax+By=s(Ab+Bc)` <br>
+        Recalling that `s=C/g` we see that <br>
+        `Ax+By=(C/g)(Ab+Bc) = C` <br>
+        Having solved the base case, we can recurrently solve equations of more than two unknowns, by propagating the constraints from subsequent calls
+        ```
+        function solve(u,c) { //unknowns and c
+            if (u.legnth < 2) { return error;}
+            if (u.length == 2) { 
+                solve base case
+            }
+            head = u[0];
+            rest = u.cdr
+            s = solve(rest,c)
+            return s/head.coeff
+        }
+        ```
