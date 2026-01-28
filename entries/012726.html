@@ -36,15 +36,353 @@
         Recalling that `s=C/g` we see that <br>
         `Ax+By=(C/g)(Ab+Bc) = C` <br>
         Having solved the base case, we can recurrently solve equations of more than two unknowns, by propagating the constraints from subsequent calls
-        ```
+        <pre>
         function solve(u,c) { //unknowns and c
             if (u.legnth < 2) { return error;}
             if (u.length == 2) { 
                 solve base case
             }
             head = u[0];
+            // make a new variable, i.e m,j,l,o, etc
+            m = makeNewVariable();
+            partial = solve([head,m],c)
             rest = u.cdr
-            s = solve(rest,c)
-            return s/head.coeff
+            return concatSolution(partial[head.name],solve(rest,partial[m.name])) // Ax+By+Cz=D, we solved for Ax+m, now By+Cz=m (in terms of other variables)
+            
+        </pre>
+
+        this approach made sense to me, but after consultation with the AI, I realized I had some subtle logical errors in this (seeimingly simple fuction). I'll let the ai summarize it's objections and a brief outline of our conversation, with a corrected psuedo-code implementation.
+<h3>The AI's Summary: The "Hidden Trap" of Recursion</h3>
+    <p>
+        The logic above looks sound—you peel off one variable (`Ax`), replace the rest of the equation with a temporary variable `m`, and recurse. However, there is a subtle mathematical flaw in how `m` is defined that causes the algorithm to fail on valid equations.
+    </p>
+
+    <h4>The Objection</h4>
+    <p>
+        In the code above, `makeNewVariable()` creates `m` with an implicit coefficient of <strong>1</strong>. This means the first step solves `Ax + 1m = C`. Since `gcd(A, 1)` is always 1, this step is trivially solvable.
+    </p>
+    <p>
+        The problem arises in the <em>next</em> step. We pass the solution for `m` (which becomes a symbolic expression like `5 - 2k`) to the recursion. The recursive call then tries to solve `Rest_of_Equation = m`.
+    </p>
+    <p>
+        If the coefficients of the remaining variables share a common factor (GCD > 1), the target <strong>must</strong> be divisible by that GCD. But because we treated `m` as a generic variable in step 1, we didn't force it to be a multiple of that GCD. The recursion then receives a target that fails the divisibility check, returning an error even when a solution exists.
+    </p>
+
+    <h4>The Fix: "GCD Look-Ahead"</h4>
+    <p>
+        We realized that we cannot treat the rest of the equation as a generic variable. We must look ahead at the remaining coefficients, calculate their GCD, and assign that GCD as the coefficient of `m`. This guarantees that the value we pass to the recursive step satisfies the divisibility constraints automatically.
+    </p>
+
+    <h3>Corrected Implementation</h3>
+    <p>
+        Here is the robust version. Note the calculation of `g_tail` before the first recursive call, and how we multiply the result back to ensure the math holds together.
+    </p>
+
+<pre>
+function solve(vars, target) {
+    if (vars.length < 2) return null;
+
+    // Base Case
+    if (vars.length === 2) {
+        return solveBaseCase(vars[0], vars[1], target);
+    }
+
+    var head = vars[0];
+    var tail = vars.slice(1);
+
+    // --- THE FIX ---
+    // Calculate the GCD of the tail coefficients first.
+    var g_tail = gcdOfList(tail); 
+    
+    // We treat the tail as a single unit 'W' with this GCD as its coefficient.
+    var W = { name: generateTempName(), value: g_tail };
+
+    // 1. Solve Head vs. W
+    // This solves: head*x + g_tail*W = target
+    var partialResult = solve([head, W], target);
+    
+    if (!partialResult) return null; 
+
+    // 2. Prepare Target for Tail
+    // We defined Tail_Sum = g_tail * W.
+    // We take the symbolic solution for W and multiply it back by g_tail.
+    var targetForTail = partialResult[W.name].multiply(g_tail);
+
+    // 3. Recurse
+    var tailSolutions = solve(tail, targetForTail);
+    
+    if (!tailSolutions) return null;
+
+    // 4. Merge Results
+    return concatSolution(partialResult[head.name], tailSolutions);
+}
+</pre>
+<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #333;
         }
-        ```
+        h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .code-container {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #0056b3; }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #fff;
+            min-height: 50px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            color: #005cc5;
+        }
+    </style>
+    <h1>Linear Diophantine Solver</h1>
+
+    <p>
+        This script implements the "GCD Look-Ahead" algorithm we discussed.
+        Click the button below to solve the equation:
+    </p>
+
+    <div class="code-container">
+        2x + 6y + 9z = 5
+    </div>
+
+    <button onclick="runExample()">Solve Equation</button>
+
+    <div id="output">Results will appear here...</div>
+
+    <script>
+        /**
+         * ==========================================
+         * PART 1: The Symbolic Math Engine
+         * Handles expressions like "5 - 2k + 3j"
+         * ==========================================
+         */
+        class Symbolic {
+            constructor(constant) {
+                this.constant = constant || 0;
+                this.coeffs = {}; // map of { "k1": 3, "k2": -5 }
+            }
+
+            // Add a term like +3k
+            addTerm(variable, coefficient) {
+                if (!this.coeffs[variable]) this.coeffs[variable] = 0;
+                this.coeffs[variable] += coefficient;
+                // Clean up zero coefficients to keep output clean
+                if (Math.abs(this.coeffs[variable]) < 1e-9) delete this.coeffs[variable];
+                return this;
+            }
+
+            // Multiply the entire expression by a scalar
+            multiply(scalar) {
+                let result = new Symbolic(this.constant * scalar);
+                for (let key in this.coeffs) {
+                    result.coeffs[key] = this.coeffs[key] * scalar;
+                }
+                return result;
+            }
+
+            // Divide entire expression by n (assumes divisibility)
+            divide(n) {
+                let result = new Symbolic(this.constant / n);
+                for (let key in this.coeffs) {
+                    result.coeffs[key] = this.coeffs[key] / n;
+                }
+                return result;
+            }
+
+            // Check if every part of the expression is divisible by n
+            isDivisibleBy(n) {
+                if (this.constant % n !== 0) return false;
+                for (let key in this.coeffs) {
+                    if (this.coeffs[key] % n !== 0) return false;
+                }
+                return true;
+            }
+
+            // Formatting for display
+            toString() {
+                let str = "" + this.constant;
+                for (let key in this.coeffs) {
+                    let val = this.coeffs[key];
+                    let sign = val >= 0 ? " + " : " - ";
+                    str += `${sign}${Math.abs(val)}${key}`;
+                }
+                return str;
+            }
+        }
+
+        /**
+         * ==========================================
+         * PART 2: Math Helpers
+         * ==========================================
+         */
+
+        // Standard Extended Euclidean Algorithm
+        // Returns { g, x, y } such that ax + by = g
+        function extendedGCD(a, b) {
+            if (b === 0) return { g: a, x: 1, y: 0 };
+            let rec = extendedGCD(b, a % b);
+            return {
+                g: rec.g,
+                x: rec.y,
+                y: rec.x - Math.floor(a / b) * rec.y
+            };
+        }
+
+        // GCD of a list of variables [{value: 6}, {value: 9}, ...]
+        function gcdOfList(vars) {
+            let g = vars[0].value;
+            for (let i = 1; i < vars.length; i++) {
+                g = extendedGCD(g, vars[i].value).g;
+            }
+            return g;
+        }
+
+        function generateTempName() {
+            return "k" + Math.floor(Math.random() * 1000);
+        }
+
+        // Merges two solution objects into one
+        function concatSolution(headSol, tailSols) {
+            return Object.assign({}, tailSols);
+        }
+
+        /**
+         * ==========================================
+         * PART 3: The Base Case Solver (N=2)
+         * Solves Ax + By = Target
+         * ==========================================
+         */
+        function solveBaseCase(v1, v2, target) {
+            // Ensure target is Symbolic
+            if (typeof target === 'number') target = new Symbolic(target);
+
+            let A = v1.value;
+            let B = v2.value;
+
+            let e = extendedGCD(A, B); // A*x + B*y = g
+            let g = e.g;
+
+            // 1. Constraint Check
+            if (!target.isDivisibleBy(g)) return null;
+
+            // 2. Particular Solution (scaled)
+            // x = e.x * (Target / g)
+            // y = e.y * (Target / g)
+            let scaleFactor = target.divide(g);
+            let sol1 = scaleFactor.multiply(e.x);
+            let sol2 = scaleFactor.multiply(e.y);
+
+            // 3. General Solution (Homogeneous)
+            // x += (B/g)*k
+            // y -= (A/g)*k
+            let k_name = generateTempName();
+            sol1.addTerm(k_name, B / g);
+            sol2.addTerm(k_name, -(A / g));
+
+            let result = {};
+            result[v1.name] = sol1;
+            result[v2.name] = sol2;
+            return result;
+        }
+
+        /**
+         * ==========================================
+         * PART 4: The Recursive Solver (N Variables)
+         * ==========================================
+         */
+        function solve(vars, target) {
+            // Error check
+            if (vars.length < 2) return null;
+
+            // --- Base Case ---
+            if (vars.length === 2) {
+                return solveBaseCase(vars[0], vars[1], target);
+            }
+
+            // --- Recursive Step ---
+            let head = vars[0];
+            let tail = vars.slice(1);
+
+            // 1. GCD Look-Ahead
+            let g_tail = gcdOfList(tail);
+            let W = { name: "W_temp", value: g_tail };
+
+            // 2. Solve Head vs Group
+            // head*x + g_tail*W = target
+            let partialResult = solve([head, W], target);
+
+            if (!partialResult) return null; // Unsolvable
+
+            // 3. Prepare Target for Tail
+            // Tail_Sum = g_tail * W_solution
+            let W_solution = partialResult[W.name];
+            let targetForTail = W_solution.multiply(g_tail);
+
+            // 4. Recurse
+            let tailSolutions = solve(tail, targetForTail);
+
+            if (!tailSolutions) return null;
+
+            // 5. Merge
+            // partialResult has 'x' and 'W'. We want 'x' combined with 'y,z' from tailSolutions.
+            tailSolutions[head.name] = partialResult[head.name];
+
+            return tailSolutions;
+        }
+
+        /**
+         * ==========================================
+         * Execution & UI Logic
+         * ==========================================
+         */
+        function runExample() {
+            let outputDiv = document.getElementById("output");
+
+            // Example: 2x + 6y + 9z = 5
+            let variables = [
+                { name: 'x', value: 2 },
+                { name: 'y', value: 6 },
+                { name: 'z', value: 9 }
+            ];
+
+            let result = solve(variables, 5);
+
+            if (!result) {
+                outputDiv.innerText = "No solution found.";
+            } else {
+                let text = "General Integer Solution:\n";
+                // Sort keys to ensure order x, y, z
+                let keys = variables.map(v => v.name);
+
+                for (let key of keys) {
+                    text += `${key} = ${result[key].toString()}\n`;
+                }
+                outputDiv.innerText = text;
+            }
+        }
+    </script>
+</body>
+</html>
